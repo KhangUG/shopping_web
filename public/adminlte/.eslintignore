@@ -1,0 +1,5 @@
+**/*.min.js
+**/./adminlte/plugins/
+/./adminlte/dist/js/adminlte.js
+/docs/
+/docs_html/

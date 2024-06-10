@@ -1,0 +1,6 @@
+**/*.html
+**/*.md
+**/*.min.css
+**/./adminlte/dist/
+**/docs_html/
+**/./adminlte/plugins/
