@@ -10,19 +10,16 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   @include ('partials.content-header', ['name' => 'Home', 'key' => 'home' ])
- 
+
 
   <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        
-
         <div class="col-md-12">
-        Trang chủ
+          Trang chủ
         </div>
-       
-
+        
       </div>
 
     </div>

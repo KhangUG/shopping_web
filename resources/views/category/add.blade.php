@@ -10,7 +10,6 @@
 <div class="content-wrapper">
    @include('partials.content-header', ['name' => 'category', 'key' => 'Add' ])
 
-
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -26,10 +25,7 @@
                         <label >Chọn danh mục cha </label>
                         <select class="form-control" >
                             <option value="0">Chọn danh mục cha</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            {!!$htmlOption!!}
                         </select>
                     </div>
 
