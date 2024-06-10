@@ -1,56 +1,42 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Components\Recusive;
+use Illuminate\Support\Str; // Import Str
 
 class CategoryController extends Controller
 {
-    private $htmlSlelect;
-public function __construct()
-{
-    $this->htmlSlelect ='';
-}
+    private $category;
 
-    public function create(){
-        $data = Category::all();
-        // foreach($data as $value){
-        //     if($value['parent_id'] == 0){
-        //         echo "<option>". $value['name'] . "</option>";
-
-        //         foreach($data as $value2){
-        //             if($value2['parent_id'] == $value['id']){
-        //                 echo "<option>". '--' . $value2['name'] .  "</option>";
-                        
-        //                 foreach($data as $value3){
-        //                     if($value3['parent_id'] == $value2['id']){
-        //                         echo "<option>".'----'. $value3['name'] ."</option>";
-                
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        $htmlOption = $this->categoryRecusive(0);
-        return view('category.add' , compact('htmlOption'));
-    }
-
-    function  categoryRecusive($id)
+    public function __construct(Category $category) 
     {
-        $data = Category::all();
-        foreach($data as $value){
-            if($value['parent_id'] == $id){
-                $this->htmlSlelect .= "<option>". '' . $value['name'] .  "</option>";
-                $this->categoryRecusive($value['id']);
-            }
-        }
-
-        return $this->htmlSlelect;
+        $this->category = $category;
     }
 
-    public function index(){
+    public function create()
+    {
+        $data = $this->category->all();
+        $recusive = new Recusive($data);
+        $htmlOption = $recusive->categoryRecusive(); 
+        return view('category.add', compact('htmlOption'));
+    }
+
+    public function index()
+    {
         return view('category.index');
     }
-}
 
+    public function store(Request $request)
+    {
+        $category = new Category();
+        $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
+        $category->slug = Str::slug($request->name); // Sử dụng Str::slug để tạo slug
+        $category->save();
+
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+    }
+}
