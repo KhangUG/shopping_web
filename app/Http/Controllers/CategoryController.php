@@ -18,9 +18,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $data = $this->category->all();
-        $recusive = new Recusive($data);
-        $htmlOption = $recusive->categoryRecusive(); 
+        $htmlOption = $this->getCategory($perentId = '');
         return view('category.add', compact('htmlOption'));
     }
 
@@ -35,17 +33,36 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->parent_id = $request->parent_id;
-        $category->slug = Str::slug($request->name); // Sử dụng Str::slug để tạo slug
+        $category->slug = Str::slug($request->name); 
         $category->save();
 
         return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
+    public function getCategory($perentId)
+    {
+        $data = $this->category->all();
+        $recusive = new Recusive($data);
+        $htmlOption = $recusive->categoryRecusive($perentId); 
+        return $htmlOption;
+    }
     public function edit($id){
+        $category = $this->category->find($id);
+        $htmlOption = $this->getCategory($category->parent_id);
+        return view('category.edit', compact('category', 'htmlOption'));
 
     }
+    public function update($id, Request $request){
+        $this ->category -> find($id) -> update([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+            'slug' => Str::slug($request->name)  
+        ]);
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+    }
+
 
     public function delete($id){
-        
+        $this->category
     }
 }

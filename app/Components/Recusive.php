@@ -10,13 +10,18 @@ class Recusive {
     {
         $this->data = $data;
     }
-    function  categoryRecusive($id = 0, $text = '')
+    function  categoryRecusive($perentId,$id = 0, $text = '')
     {
        
         foreach($this->data as $value){
             if($value['parent_id'] == $id){
-                $this->htmlSlelect .= "<option value='". $value['id']. " '>". $text . $value['name'] .  "</option>";
-                $this->categoryRecusive($value['id'], $text. '--');
+                if(!empty($perentId) && $perentId == $value['id']){
+                    $this->htmlSlelect .= "<option selected value='". $value['id']. " '>". $text . $value['name'] .  "</option>";
+                }else{
+                    $this->htmlSlelect .= "<option value='". $value['id']. " '>". $text . $value['name'] .  "</option>";
+                }
+                
+                $this->categoryRecusive($perentId,$value['id'], $text. '--');
             }
         }
 

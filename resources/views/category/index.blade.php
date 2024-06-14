@@ -8,10 +8,9 @@
 
 @section('content')
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   @include('partials.content-header', ['name' => 'category', 'key' => 'List' ])
 
-  <!-- Main content -->
+
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -43,11 +42,11 @@
           </table>
         </div>
         <div class="col-md-3">
-        
-        {{ $categories->links('pagination::bootstrap-4') }}
+
+          {{ $categories->links('pagination::bootstrap-4') }}
         </div>
-      </div> 
-      
+      </div>
+
     </div>
   </div>
 </div>
