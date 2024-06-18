@@ -19,13 +19,13 @@ class CategoryController extends Controller
     public function create()
     {
         $htmlOption = $this->getCategory($perentId = '');
-        return view('category.add', compact('htmlOption'));
+        return view('admin.category.add', compact('htmlOption'));
     }
 
     public function index()
     {
         $categories = $this->category->latest()->paginate(5);
-        return view('category.index', compact('categories'));
+        return view('admin.category.index', compact('categories'));
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class CategoryController extends Controller
         $category->slug = Str::slug($request->name); 
         $category->save();
 
-        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
 
     public function getCategory($perentId)
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     public function edit($id){
         $category = $this->category->find($id);
         $htmlOption = $this->getCategory($category->parent_id);
-        return view('category.edit', compact('category', 'htmlOption'));
+        return view('admin.category.edit', compact('category', 'htmlOption'));
 
     }
     public function update($id, Request $request){
@@ -58,12 +58,12 @@ class CategoryController extends Controller
             'parent_id' => $request->parent_id,
             'slug' => Str::slug($request->name)  
         ]);
-        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
 
 
     public function delete($id){
         $this->category->find($id)->delete();
-        return redirect() -> route('categories.index');
+        return redirect() -> route('admin.categories.index');
     }
 }
