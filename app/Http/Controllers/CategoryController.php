@@ -58,7 +58,8 @@ class CategoryController extends Controller
             'parent_id' => $request->parent_id,
             'slug' => Str::slug($request->name)  
         ]);
-        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
+        
+        return redirect()->route('admin.categories.index');
     }
 
 

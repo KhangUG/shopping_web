@@ -6,6 +6,14 @@
 <title>Add product</title>
 @endsection
 
+@section('css')
+  <link rel="stylesheet" href="{{asset('admins/product/index/list.css')}}">
+@endsection
+
+@section('js')
+
+@endsection
+
 @section('content')
 <div class="content-wrapper">
   @include('partials.content-header', ['name' => 'product', 'key' => 'List'])
@@ -31,28 +39,32 @@
               </tr>
             </thead>
             <tbody>
+             @foreach ($products as $productItem )
+             
              
               <tr>
-                <th scope="row">1</th>
-                <td>Iphone 11</td>
-                <td>5.000.000</td>
+                <th scope="row">{{$productItem->id}}</th>
+                <td>{{$productItem->name}}</td>
+                <td>{{number_format($productItem->price)}}</td>
                 <td>
-                    <img src="" alt="">
+                    <img class="product_image_150_100" src="{{$productItem->feature_image_path}}" alt="">
                 </td>
-                <td>Điện thoại</td>
+                <td>{{ optional($productItem->category)->name ?? 'Default Value' }}</td>
+
                 
 
                 <td>
-                  <a href="" class="btn btn-default">Edit</a>
+                  <a href="{{route('product.edit', ['id' =>$productItem->id])}}" class="btn btn-default">Edit</a>
                   <a href="" class="btn btn-danger">Delete</a>
                 </td>
               </tr>
-             
+              @endforeach
             </tbody>
           </table>
         </div>
-        <div class="col-md-3">
-
+        <div class="col-md-12">
+        {{ $products->links('pagination::bootstrap-4') }}
+        </div>
         </div>
       </div>
 
